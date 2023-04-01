@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"  crossorigin="anonymous"  />
+    <link rel="stylesheet" href="stylesheets/uploadReport.css">
+    <title>Upload File</title>
+</head>
+<body>
+    <div class="main"></div>
+    
+        <div class="wrapper">
+
+        <h2>{{status}}</h2>
+        <header>Upload File</header><br>
+
+        <input type="email" id="email" class="patient-email" style="margin-left:20px;" placeholder="Patient Email" />
+        <input type="text" id="test-name" class="test-name" placeholder="Test Name" />
+            <br><br><br>
+          
+          <div style="margin-top:-1rem; margin-bottom:1.5rem;">
+            <input class="file-input" type="file"  style="margin-left:6rem;" name="file" id="files">
+            <br><br><br>
+            <div id="check">
+            <!---->
+            
+            <button type="button" id="send" style="background-color:#6990f2; margin-top:2px;font-size:large;text-align: center; border:1px solid #6990f2; padding:5px; height:40px; border-radius:8px;"><i class="fas fa-cloud-upload-alt"></i>&nbsp;&nbsp;&nbsp;Send to Patient&nbsp;&nbsp;&nbsp; </button>
+
+         </div>
+          </div>
+          <p id="uploading"></p>
+            <progress value="0" max="100" id="progress"></progress>
+          <div>
+        </div>
+        </div>
+        <div>
+          <img src="images/add_file_re_s4qf.svg" class="image" alt="" srcset="">
+          </div>
+        </div>
+        <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use -->
+        <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-storage.js"></script>
+
+        <script>
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+            apiKey: "AIzaSyAqk4ycv5Y4BGGfYXUKyOdRrevfvIFNOok",
+            authDomain: "dense-364214.firebaseapp.com",
+            projectId: "dense-364214",
+            storageBucket: "dense-364214.appspot.com",
+            messagingSenderId: "977786200477",
+            appId: "1:977786200477:web:6d896cd5f8a89f446a0f74",
+            measurementId: "G-CC80BEZREX",
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+        </script>
+
+        <script>
+            var files = [];
+            document.getElementById("files").addEventListener("change", function (e) {
+            files = e.target.files;
+            for (let i = 0; i < files.length; i++) {
+                console.log(files[i]);
+            }
+            });
+
+            document.getElementById("send").addEventListener("click", function () {
+            //checks if files are selected
+            if (files.length != 0) {
+                //Loops through all the selected files
+                for (let i = 0; i < files.length; i++) {
+                //create a storage reference
+                const storage = firebase.storage();
+                const storagRef = storage.ref();
+
+                const dirRef = storagRef.child("LabRecords");
+
+                const fileRef = dirRef.child(files[i].name);
+
+                //upload file
+                var upload = fileRef.put(files[i]);
+
+                //update progress bar
+                upload.on(
+                    "state_changed",
+
+                    function progress(snapshot) {
+                    var percentage =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    document.getElementById("progress").value = percentage;
+                    },
+
+                    function error() {
+                    alert("error uploading file");
+                    },
+
+                    function complete() {
+            
+                    upload.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                        // You get your url from here
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "uploadFile", true);
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        xhr.send(
+                        JSON.stringify({
+                            docLink: downloadURL,
+                            testName:document.querySelector(".test-name").value,
+                            email: document.querySelector(".patient-email").value,
+                        })
+                        );
+                    document.getElementById("uploading").innerHTML += "upload success";
+                    });
+                    }
+                );
+                }
+            } else {
+                alert("No file chosen");
+            }
+            });
+
+        </script>
+</body>
+</html>

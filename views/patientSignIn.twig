@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"  crossorigin="anonymous"  />
+    <link rel="stylesheet" href="stylesheets/patient_login.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="signin-signup">
+                <form action="/patientSignIn" method="POST" class="sign-in-form">
+                    <h2 class="title">Sign In</h2>
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="text" placeholder="Email" name="patientEmail">
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Password" id="passL" name="patientPass" >
+                        <i class="fa-solid fa-eye-slash show1" id="eye"></i>
+                    </div>
+                    <input type="submit" value="Login" class="btn solid">
+                </form>
+                <form action="/patientSignUp" method="POST" class="sign-up-form">
+                    <h2 class="title">Sign Up</h2>
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" placeholder="Name" name="patientName">
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-regular fa-id-badge"></i>
+                        <input type="text" placeholder="Aadhaar Id." name="patientAadhar">
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="text" placeholder="Email" name="patientEmail">
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="number" placeholder="Mobile Number" name="patientMobile">
+                    </div>
+                    {# <div class="input-field">
+                        <i class="fa-solid fa-house-user"></i>
+                        <input type="text" placeholder="Address">
+                    </div> #}
+                    <div class="input-field">
+                        <i class="fa-solid fa-user-alt"></i>
+                        <input type="number" placeholder="Age" name="patientAge">
+                    </div>
+                    <div class="gender">
+                        <i class="fa-solid fa-person-half-dress "></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                        Gender&nbsp;
+                    <input type="radio" name="patientGender" value="male"> Male&nbsp;
+                    <input type="radio" name="patientGender" value="female"> Female &nbsp;
+                    <input type="radio" name="patientGender" value="other"> Other&nbsp;
+                            </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-arrows-up-down"></i>
+                        <input type="number" placeholder="Height" name="patientHeight">
+                    </div>
+
+                    <div class="input-field">
+                        <i class="fa-solid fa-weight-scale"></i>
+                        <input type="number" placeholder="Weight" name="patientWeight">
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Password" id="passV" name="patientPass">
+                       
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Confirm Password" id="passC" name="patientConfPass">
+                        <i class="fa-solid fa-eye-slash show" id="eye"></i>
+                    </div>
+                    <input type="submit" value="Sign Up" class="btn solid">
+                </form>
+            </div>
+        </div>
+        <div class="panels-container">
+           <div class="panel left-panel">
+            <div class="content">
+                <p>Welcome!! Have a Great Day Ahead...</p><br>
+                <h4>New Here?
+
+                </h4><br>
+                
+                <button class="btn transparent" id="sign-up-button">Sign Up</button>
+            </div>
+            <img src="images/medical_care_movn.svg" class="image" alt="" srcset="">
+           </div>
+
+           <div class="panel right-panel">
+            <div class="content">
+                <p class="res1">Hey!! Wanna Register...</p><br>
+                
+                <h4 class="res2">One of Us?
+
+                </h4><br>
+              
+                <button class="btn transparent res3" id="sign-in-button">Sign In</button>
+            </div>
+            <img src="images/doctor_kw-5-l.svg" class="image" alt="" srcset="">
+           </div>
+        </div>
+    </div>
+    <script>
+    const signInButton = document.querySelector('#sign-in-button');
+        const signUpButton = document.querySelector('#sign-up-button');
+        const container = document.querySelector('.container');
+        
+        signUpButton.addEventListener('click', () =>{
+            container.classList.add("sign-up-mode");
+        
+        })
+        
+        
+        signInButton.addEventListener('click', () =>{
+            container.classList.remove("sign-up-mode");
+        
+        })
+        const passShow = document.querySelector(".show"),
+         passShow1 = document.querySelector("#passV"),
+         passShow2 = document.querySelector("#passC");
+         
+         passShow.addEventListener('click', () => {
+            if((passShow1.type==="password")&&(passShow2.type==="password")){
+            passShow1.type = "text";
+            passShow2.type = "text";
+            }
+            else{
+                passShow1.type = "password";
+            passShow2.type = "password";
+            }
+         })
+         const passCheck = document.querySelector(".show1"),
+         passCheck1 = document.querySelector("#passL");
+         
+         passCheck.addEventListener('click', () => {
+            if((passCheck1.type==="password")){
+            passCheck1.type = "text";
+            }
+            else{
+                passCheck1.type = "password";
+            }
+
+
+         })
+        </script>
+</body>
+</html>
